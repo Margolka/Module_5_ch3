@@ -28,6 +28,9 @@ class BaseContact:
     def contact(self):
         return f"Wybieram numer {self.private_phone} i dzwonię do {self.first_name} {self.last_name}"
 
+    def label(self):
+        return f"Długość etykiety dla {self.first_name} {self.last_name} -- {self.lable_length}"
+
 
 class BusinessContact(BaseContact):
     def __init__(self, firm, position, work_phone, *args, **kwargs):
@@ -42,13 +45,13 @@ class BusinessContact(BaseContact):
 
 def contact():
     choice = input(
-        "What kind of contacts do you want to generate? :\n1 Base Contact\n2 Buisnes Contact\n"
+        "Jaki rodzaj wizytówek wybierasz? :\n1 Base Contact\n2 Buisnes Contact\n"
     )
     if choice in ("1", "2"):
         try:
-            how_many = int(input("How many ? "))
+            how_many = int(input("Ile wygenerować ? "))
         except ValueError:
-            logging.error("Incorrect data!")
+            logging.error("Nieprawidłowe dane!")
             exit(0)
         if choice == "1":
             base_contact_list = []
@@ -62,6 +65,7 @@ def contact():
                     )
                 )
             [print(person.contact()) for person in base_contact_list]
+
         elif choice == "2":
             buisness_contact_list = []
             for _ in range(how_many):
@@ -78,7 +82,7 @@ def contact():
                 )
             [print(person.contact()) for person in buisness_contact_list]
     else:
-        logging.error("Wrong choice!")
+        logging.error("Nieprawidłowy wybór!")
 
 
 if __name__ == "__main__":
