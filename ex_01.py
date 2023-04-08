@@ -13,23 +13,16 @@ class BaseContact:
         self.last_name = last_name
         self.mail = mail
         self.private_phone = private_phone
-        pass
-
-        # Variables
-        self._label_length = 0
+        self.label_length = len(f"{self.first_name} {self.last_name}")
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
-
-    @property
-    def lable_length(self):
-        return len(f"{self.first_name} {self.last_name}")
 
     def contact(self):
         return f"Wybieram numer {self.private_phone} i dzwonię do {self.first_name} {self.last_name}"
 
     def label(self):
-        return f"Długość etykiety dla {self.first_name} {self.last_name} -- {self.lable_length}"
+        return f"Długość etykiety dla {self.first_name} {self.last_name} -- {self.label_length}"
 
 
 class BusinessContact(BaseContact):
@@ -43,7 +36,7 @@ class BusinessContact(BaseContact):
         return f"Wybieram numer {self.work_phone} i dzwonię do {self.first_name} {self.last_name}"
 
 
-def contact():
+def create_contacts():
     choice = input(
         "Jaki rodzaj wizytówek wybierasz? :\n1 Base Contact\n2 Buisnes Contact\n"
     )
@@ -64,7 +57,8 @@ def contact():
                         private_phone=person.phone_number(),
                     )
                 )
-            [print(person.contact()) for person in base_contact_list]
+            for card in base_contact_list:
+                print(card.contact())
 
         elif choice == "2":
             buisness_contact_list = []
@@ -80,10 +74,11 @@ def contact():
                         work_phone=person.phone_number(),
                     )
                 )
-            [print(person.contact()) for person in buisness_contact_list]
+            for card in buisness_contact_list:
+                print(card.contact())
     else:
         logging.error("Nieprawidłowy wybór!")
 
 
 if __name__ == "__main__":
-    contact()
+    create_contacts()
