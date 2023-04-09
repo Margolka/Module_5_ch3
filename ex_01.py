@@ -46,7 +46,7 @@ class BusinessContact(BaseContact):
         return f"Wybieram numer {self.work_phone} i dzwonię do {self.first_name} {self.last_name}"
 
 
-def create_contacts(choice, how_many1):
+def create_contacts(choice, how_many):
     if choice == "1":
         base_contact_list = []
         for _ in range(how_many):
