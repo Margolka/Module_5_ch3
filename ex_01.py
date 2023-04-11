@@ -13,20 +13,14 @@ class BaseContact:
         self.last_name = last_name
         self.mail = mail
         self.private_phone = private_phone
-
-        # Variables
-        self.label_length = 0
-
-    def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        self._label_length = len(f"{self.first_name} {self.last_name}")
 
     @property
     def label_length(self):
         return self._label_length
 
-    @label_length.setter
-    def label_length(self, value):
-        self._label_length = len(f"{self.first_name} {self.last_name}")
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
 
     def contact(self):
         return f"Wybieram numer {self.private_phone} i dzwonię do {self.first_name} {self.last_name}"
@@ -47,36 +41,32 @@ class BusinessContact(BaseContact):
 
 
 def create_contacts(choice, how_many):
-    if choice == "1":
-        base_contact_list = []
-        for _ in range(how_many):
-            base_contact_list.append(
-                BaseContact(
-                    first_name=person.first_name(),
-                    last_name=person.last_name(),
-                    mail=person.email(),
-                    private_phone=person.phone_number(),
+    new_list = []
+    match choice:
+        case "1":
+            for _ in range(how_many):
+                new_list.append(
+                    BaseContact(
+                        first_name=person.first_name(),
+                        last_name=person.last_name(),
+                        mail=person.email(),
+                        private_phone=person.phone_number(),
+                    )
                 )
-            )
-        for card in base_contact_list:
-            print(card.contact())
-
-    elif choice == "2":
-        buisness_contact_list = []
-        for _ in range(how_many):
-            buisness_contact_list.append(
-                BusinessContact(
-                    first_name=person.first_name(),
-                    last_name=person.last_name(),
-                    firm=person.company(),
-                    position=person.job(),
-                    mail=person.email(),
-                    private_phone=person.phone_number(),
-                    work_phone=person.phone_number(),
+        case "2":
+            for _ in range(how_many):
+                new_list.append(
+                    BusinessContact(
+                        first_name=person.first_name(),
+                        last_name=person.last_name(),
+                        firm=person.company(),
+                        position=person.job(),
+                        mail=person.email(),
+                        private_phone=person.phone_number(),
+                        work_phone=person.phone_number(),
+                    )
                 )
-            )
-        for card in buisness_contact_list:
-            print(card.contact())
+    return new_list
 
 
 if __name__ == "__main__":
@@ -89,6 +79,8 @@ if __name__ == "__main__":
         except ValueError:
             logging.error("Nieprawidłowe dane!")
             exit(0)
-        create_contacts(choice, how_many)
+        list = create_contacts(choice, how_many)
+        for card in list:
+            print(card.contact())
     else:
         logging.error("Nieprawidłowy wybór!")
